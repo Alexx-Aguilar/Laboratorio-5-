@@ -64,4 +64,4 @@ Guarda capturas de Swagger UI en `docs/` cuando ejecutes las pruebas. Registra l
 
 ## Colaboración y entrega
 
-Este proyecto se realizó individualmente por Alex Aguilar. La guía original solicita trabajo en parejas, ramas separadas y revisión por pull request; confirma con el docente cómo adaptar esos puntos y la coevaluación para modalidad individual. Añade el enlace del repositorio cuando lo publiques y las capturas después de hacer las pruebas.
+Este proyecto se realizó individualmente por Alex Aguilar con autorización del docente. Repositorio: https://github.com/Alexx-Aguilar/Laboratorio-5-.git. Guarda las capturas de evidencia en `docs/`. Completa el formulario de coevaluación individual si el docente indica que aplica.
