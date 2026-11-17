@@ -1,0 +1,226 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evidencias del Laboratorio 5 | Alex Aguilar</title>
+<style>
+:root{--ink:#182536;--muted:#596a7d;--blue:#123456;--teal:#0c766e;--pale:#e8f4f2;--line:#d7e0e8;--paper:#fff;--warm:#f5f7fa;--green:#176b43}
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f6;color:var(--ink);font:16px/1.5 "Segoe UI",Arial,sans-serif}
+main{max-width:1100px;margin:28px auto;padding:0 22px 48px}
+.cover{background:linear-gradient(135deg,#102a43,#176b72);color:#fff;border-radius:18px;padding:42px 46px;margin-bottom:24px;box-shadow:0 14px 36px #172b4d22}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.13em;opacity:.8;font-weight:700}
+h1{font-size:34px;line-height:1.15;margin:12px 0 10px;color:#fff}
+.cover p{max-width:770px;margin:0;color:#e5f3f4}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.pill{border:1px solid #ffffff55;background:#ffffff14;border-radius:999px;padding:7px 13px;font-size:13px}
+.summary,.note,.evidence-section{background:var(--paper);border:1px solid var(--line);border-radius:14px;margin:18px 0;padding:22px 24px;box-shadow:0 4px 14px #132b4410}
+h2{font-size:22px;line-height:1.25;margin:0 0 12px;color:var(--blue)}
+h3{font-size:18px;margin:0 0 5px;color:var(--blue)}
+p{margin:7px 0}
+a{color:#0a5c84}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:9px 10px}
+th{background:#f0f5f8;color:#24384c;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.status{color:var(--green);font-weight:700;white-space:nowrap}
+.note{background:var(--pale);border-color:#b6dcd5}
+.note strong{color:#0a5a53}
+.evidence-section{padding:22px 24px}
+.section-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:13px}
+.number{flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700}
+.section-head p{color:var(--muted);font-size:14px;margin:3px 0 0}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+figure{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f8fafc;break-inside:avoid}
+figure img{display:block;width:100%;height:auto;max-height:350px;object-fit:contain;background:#101820}
+figcaption{padding:8px 11px;color:#46586a;font-size:12px}
+footer{color:var(--muted);font-size:12px;text-align:center;margin:26px 0 4px}
+@media(max-width:720px){main{padding:0 12px}.cover{padding:30px 24px}.gallery{grid-template-columns:1fr}h1{font-size:28px}}
+@media print{
+ @page{size:letter portrait;margin:13mm}
+ body{background:#fff;font-size:11pt}
+ main{max-width:none;margin:0;padding:0}
+ .cover{border-radius:0;box-shadow:none;margin:0 0 8mm;padding:25mm 17mm;min-height:245mm;display:flex;flex-direction:column;justify-content:center;page-break-after:always}
+ .summary,.note,.evidence-section{box-shadow:none;border-radius:0;margin:0 0 6mm;padding:6mm;break-inside:avoid}
+ .summary{page-break-after:always}
+ h2{font-size:17pt}h3{font-size:13pt}
+ .gallery{grid-template-columns:1fr 1fr;gap:4mm}
+ figure img{max-height:58mm}
+ figcaption{font-size:8pt;padding:2mm}
+ table{font-size:9pt}
+ footer{margin-top:5mm}
+}
+</style>
+</head>
+<body>
+<main>
+<header class="cover">
+  <div class="eyebrow">Programación Backend · API REST</div>
+  <h1>Laboratorio 5<br>Express Swagger y DeepSeek</h1>
+  <p>Documento de evidencias de ejecución de la API de notas, sus validaciones y la integración de inteligencia artificial probada desde Swagger UI.</p>
+  <div class="meta">
+    <span class="pill">Estudiante: Alex Aguilar</span>
+    <span class="pill">Modalidad individual autorizada</span>
+    <span class="pill">16 de noviembre de 2026</span>
+    <span class="pill">Repositorio: Alexx-Aguilar/Laboratorio-5-</span>
+  </div>
+</header>
+
+<section class="summary">
+  <h2>Resumen de resultados</h2>
+  <p>Las capturas muestran las solicitudes y respuestas ejecutadas desde Swagger UI en <strong>http://localhost:3000/api-docs</strong>. Las notas se almacenan en memoria, por lo que se conservan durante la ejecución del servidor y se reinician al detenerlo.</p>
+  <table>
+    <thead><tr><th>Prueba</th><th>Resultado observado</th></tr></thead>
+    <tbody>
+      <tr><td>Crear notas 1 y 2</td><td class="status">201 Created</td></tr>
+      <tr><td>Listar notas</td><td class="status">200 OK · dos notas</td></tr>
+      <tr><td>Consultar nota existente</td><td class="status">200 OK</td></tr>
+      <tr><td>Consultar nota inexistente</td><td class="status">404 · Nota no encontrada</td></tr>
+      <tr><td>Crear con cuerpo vacío</td><td class="status">400 · validación Zod</td></tr>
+      <tr><td>Pregunta válida a DeepSeek</td><td class="status">200 OK · respuesta y tokens</td></tr>
+      <tr><td>Pregunta de un carácter</td><td class="status">400 · validación Zod</td></tr>
+      <tr><td>Resumen de nota existente</td><td class="status">200 OK</td></tr>
+      <tr><td>Resumen de nota inexistente</td><td class="status">404 · no se resume una nota ausente</td></tr>
+      <tr><td>Eliminar nota 2 y consultarla</td><td class="status">204 y luego 404</td></tr>
+      <tr><td>Clave de DeepSeek inválida</td><td class="status">502 · IA_NO_DISPONIBLE</td></tr>
+      <tr><td>Clave real restaurada</td><td class="status">200 OK · conexión confirmada</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="note">
+  <strong>Seguridad:</strong> se excluye la captura de terminal que mostraba parte del valor temporal de prueba. La comprobación con clave inválida produjo <code>502 IA_NO_DISPONIBLE</code> en Swagger y <code>401</code> en el servicio proveedor. Las imágenes incluidas muestran la solicitud y la respuesta de Swagger, sin exponer la clave.
+</div>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">01</span><div><h3>Crear la primera nota</h3><p>POST /api/notas · respuesta 201 · nota con ID 1</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/A-1.png" alt="Cuerpo de solicitud para crear la primera nota"><figcaption>A-1 · Cuerpo JSON enviado.</figcaption></figure>
+    <figure><img src="capturas/A-2.png" alt="Respuesta 201 al crear la primera nota"><figcaption>A-2 · Nota creada con ID 1 y estado 201.</figcaption></figure>
+    <figure><img src="capturas/A-3.png" alt="Respuesta final de creación de la primera nota"><figcaption>A-3 · Confirmación adicional de la creación.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">02</span><div><h3>Crear la segunda nota</h3><p>POST /api/notas · respuesta 201 · nota con ID 2</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/B-1.png" alt="Cuerpo de solicitud para crear la segunda nota"><figcaption>B-1 · Cuerpo JSON de la segunda nota.</figcaption></figure>
+    <figure><img src="capturas/B-2.png" alt="Respuesta 201 al crear la segunda nota"><figcaption>B-2 · Respuesta 201 con la nota creada.</figcaption></figure>
+    <figure><img src="capturas/B-3.png" alt="Confirmación de segunda nota creada"><figcaption>B-3 · Confirmación adicional con ID 2.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">03</span><div><h3>Listar notas</h3><p>GET /api/notas · respuesta 200 · dos notas en la colección</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/C-1.png" alt="Ejecución del endpoint de lista de notas"><figcaption>C-1 · Solicitud de listado.</figcaption></figure>
+    <figure><img src="capturas/C-2.png" alt="Lista de las dos notas"><figcaption>C-2 · Respuesta 200 con las notas 1 y 2.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">04</span><div><h3>Consultar nota inexistente</h3><p>GET /api/notas/99 · respuesta 404</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/D-1.png" alt="Solicitud GET de una nota inexistente"><figcaption>D-1 · Consulta del ID 99.</figcaption></figure>
+    <figure><img src="capturas/D-2.png" alt="Respuesta 404 nota no encontrada"><figcaption>D-2 · Error esperado: Nota no encontrada.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">05</span><div><h3>Validar creación de nota</h3><p>POST /api/notas con cuerpo vacío · respuesta 400</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/E-1.png" alt="Cuerpo vacío enviado a la ruta de notas"><figcaption>E-1 · Solicitud con el cuerpo vacío {}.</figcaption></figure>
+    <figure><img src="capturas/E-2.png" alt="Ejecución de solicitud inválida"><figcaption>E-2 · Ejecución de la solicitud inválida.</figcaption></figure>
+    <figure><img src="capturas/E-3.png" alt="Respuesta 400 con errores de validación"><figcaption>E-3 · Respuesta 400 con detalles de Zod.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">06</span><div><h3>Consultar nota existente</h3><p>GET /api/notas/1 · respuesta 200</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/F-1.png" alt="Solicitud de nota con ID 1"><figcaption>F-1 · Consulta de la nota 1.</figcaption></figure>
+    <figure><img src="capturas/F-2.png" alt="Respuesta 200 con primera nota"><figcaption>F-2 · La API devuelve la nota existente.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">07</span><div><h3>Pregunta a DeepSeek</h3><p>POST /api/ia/preguntar · respuesta 200 · uso registrado</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/G-1.png" alt="Pregunta libre enviada a DeepSeek"><figcaption>G-1 · Pregunta libre desde Swagger UI.</figcaption></figure>
+    <figure><img src="capturas/G-2.png" alt="Respuesta 200 de DeepSeek"><figcaption>G-2 · Respuesta válida del modelo y primer registro de tokens.</figcaption></figure>
+    <figure><img src="capturas/G-3.png" alt="Detalle de tokens de la primera llamada"><figcaption>G-3 · 55 prompt_tokens y 57 completion_tokens.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">08</span><div><h3>Validar pregunta corta</h3><p>POST /api/ia/preguntar con texto de un carácter · respuesta 400</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/H-1.png" alt="Cuerpo de pregunta corta"><figcaption>H-1 · Entrada de un carácter.</figcaption></figure>
+    <figure><img src="capturas/H-2.png" alt="Respuesta 400 para pregunta corta"><figcaption>H-2 · Solicitud rechazada con estado 400.</figcaption></figure>
+    <figure><img src="capturas/H-3.png" alt="Detalle de longitud mínima"><figcaption>H-3 · Zod informa el mínimo de tres caracteres.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">09</span><div><h3>Resumir nota existente</h3><p>POST /api/notas/1/resumen · respuesta 200</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/I-1.png" alt="Solicitud para resumir la nota 1"><figcaption>I-1 · Solicitud de resumen para la nota 1.</figcaption></figure>
+    <figure><img src="capturas/I-2.png" alt="Resumen de la nota 1"><figcaption>I-2 · Respuesta 200 con resumen en español.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">10</span><div><h3>Resumen de nota inexistente</h3><p>POST /api/notas/99/resumen · respuesta 404</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/J-1.png" alt="Solicitud de resumen de nota inexistente"><figcaption>J-1 · Solicitud para el ID 99.</figcaption></figure>
+    <figure><img src="capturas/J-2.png" alt="Respuesta 404 para resumen inexistente"><figcaption>J-2 · La API devuelve Nota no encontrada.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">11</span><div><h3>Eliminar nota 2</h3><p>DELETE /api/notas/2 · respuesta 204</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/K-1.png" alt="Solicitud para eliminar nota 2"><figcaption>K-1 · Solicitud DELETE para el ID 2.</figcaption></figure>
+    <figure><img src="capturas/K-2.png" alt="Respuesta 204 nota eliminada"><figcaption>K-2 · Nota eliminada correctamente.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">12</span><div><h3>Confirmar eliminación</h3><p>GET /api/notas/2 después de eliminar · respuesta 404</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/L-1.png" alt="Solicitud GET de nota eliminada"><figcaption>L-1 · Consulta posterior del ID 2.</figcaption></figure>
+    <figure><img src="capturas/L-2.png" alt="Respuesta 404 tras eliminar"><figcaption>L-2 · La nota ya no existe.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">13</span><div><h3>Segunda llamada y uso de tokens</h3><p>POST /api/ia/preguntar · respuesta 200 · segundo registro</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/M-1.png" alt="Segunda pregunta breve a DeepSeek"><figcaption>M-1 · Segunda solicitud al modelo.</figcaption></figure>
+    <figure><img src="capturas/M-2.png" alt="Respuesta de la segunda llamada"><figcaption>M-2 · Respuesta 200.</figcaption></figure>
+    <figure><img src="capturas/M-3.png" alt="Detalle de tokens de la segunda llamada"><figcaption>M-3 · 48 prompt_tokens y 87 completion_tokens.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">14</span><div><h3>Rechazar una clave inválida</h3><p>POST /api/ia/preguntar · DeepSeek responde 401 y la API lo convierte en 502</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/N-1.png" alt="Solicitud de prueba de autenticación"><figcaption>N-1 · Solicitud de prueba enviada desde Swagger.</figcaption></figure>
+    <figure><img src="capturas/N-2.png" alt="Respuesta 502 IA no disponible"><figcaption>N-2 · La API responde 502 con IA_NO_DISPONIBLE.</figcaption></figure>
+    <figure><img src="capturas/N-3.png" alt="Detalle de respuesta 502"><figcaption>N-3 · Confirmación del código 502 en Swagger.</figcaption></figure>
+  </div>
+</section>
+
+<section class="evidence-section">
+  <div class="section-head"><span class="number">15</span><div><h3>Confirmar la clave real restaurada</h3><p>POST /api/ia/preguntar · respuesta 200 tras restaurar la configuración</p></div></div>
+  <div class="gallery">
+    <figure><img src="capturas/Enye-1.png" alt="Solicitud de confirmación después de restaurar la clave real"><figcaption>Ñ-1 · Solicitud de confirmación.</figcaption></figure>
+    <figure><img src="capturas/Enye-2.png" alt="Respuesta 200 después de restaurar la clave real"><figcaption>Ñ-2 · DeepSeek responde correctamente con estado 200.</figcaption></figure>
+    <figure><img src="capturas/Enye-3.png" alt="Uso de tokens de la llamada de confirmación"><figcaption>Ñ-3 · 44 prompt_tokens y 123 completion_tokens.</figcaption></figure>
+  </div>
+</section>
+
+<footer>Alex Aguilar · Laboratorio 5 · API REST con Express, Swagger y DeepSeek</footer>
+</main>
+</body>
+</html>

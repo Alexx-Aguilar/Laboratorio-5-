@@ -51,7 +51,7 @@ Las notas se guardan en memoria y se borran al reiniciar el proceso.
 
 Desde Swagger UI, crea dos notas, lista las notas, consulta una nota inexistente (404), envía `{}` al endpoint de creación (400), prueba una pregunta de una letra (400), pregunta a DeepSeek, resume una nota existente y elimina una nota. Las llamadas de IA pueden generar cargos según el saldo y las tarifas de la cuenta.
 
-Guarda capturas de Swagger UI en `docs/` cuando ejecutes las pruebas. Registra los `prompt_tokens` y `completion_tokens` que devuelve DeepSeek en dos llamadas; la API los agrupa en el objeto `uso`.
+El documento ordenado de evidencias, con capturas de Swagger agrupadas por prueba, está en [`docs/evidencias.html`](docs/evidencias.html). Los PNG originales se guardan en `docs/capturas/`; no se incluye la captura de terminal que muestra el valor temporal usado para probar una clave inválida. Registra los `prompt_tokens` y `completion_tokens` que devuelve DeepSeek en dos llamadas; la API los agrupa en el objeto `uso`.
 
 ## Reflexión
 
